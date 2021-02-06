@@ -1,6 +1,8 @@
 import camelCase from 'lodash/camelCase';
 import React from 'react';
 import { CSVReader } from 'react-papaparse';
+import { useDispatch } from 'react-redux';
+import { validateEmployees } from '../Employees/employeesSlice';
 
 const config = {
   header: true,
@@ -16,8 +18,11 @@ const config = {
 };
 
 const FileInput = () => {
+  const dispatch = useDispatch();
+
   const onFileLoad = (data) => {
     console.log(data);
+    dispatch(validateEmployees(data));
   };
 
   return (
