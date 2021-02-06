@@ -18,6 +18,7 @@
         "react"
     ],
     "rules": {
+        "no-param-reassign": "off"
     },
     "root": true
 }

@@ -1,15 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+
+const employeesAdapter = createEntityAdapter({
+  selectId: ({ id }) => id,
+  sortComparer: ({ id: id1 }, { id: id2 }) => id1 - id2,
+});
 
 const employeesSlice = createSlice({
   name: 'employees',
-  initialState: [],
+  initialState: employeesAdapter.getInitialState(),
   reducers: {
-    addEmployee(state, action) {
-      state.push(action.payload);
+    addEmployees(state, action) {
+      employeesAdapter.setAll(state, action.payload);
     },
   },
 });
 
-export const { addEmployee } = employeesSlice.actions;
+export const { addEmployees } = employeesSlice.actions;
 
 export default employeesSlice.reducer;

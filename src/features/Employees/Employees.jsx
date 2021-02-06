@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addEmployee } from './employeesSlice';
+import { addEmployees } from './employeesSlice';
+import data from '../../mocks/csvjson.json';
+import FileInput from '../FileInput/FileInput';
+
+data.forEach((val, i) => {
+  val.id = i + 1;
+});
 
 const Employees = () => {
   const dispatch = useDispatch();
-  const handleClick = () => dispatch(addEmployee({ name: 'Nick' }));
+
+  useEffect(() => {
+    dispatch(addEmployees(data));
+  });
+
   return (
     <div>
-      <button type="button" onClick={handleClick}>Click</button>
+      <FileInput />
     </div>
   );
 };
