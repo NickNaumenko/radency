@@ -1,4 +1,5 @@
 import Nope from 'nope-validator';
+import { dateRegexp } from '../helpers/dateRegexp';
 import findDuplicates from '../helpers/findDuplicates';
 import idGenerator from '../helpers/idGenerator';
 
@@ -15,7 +16,9 @@ const employeeSchema = Nope.object().shape({
   yearlyIncome: Nope.number().positive(),
   hasChildren: Nope.boolean(),
   licenseStates: Nope.string(),
-  expirationDate: Nope.date().after(new Date()),
+  expirationDate: Nope.string()
+    .regex(dateRegexp)
+    .test((value) => Nope.date().after(new Date()).validate(value)),
   licenseNumber: Nope.string().exactLength(6),
 });
 
@@ -56,6 +59,5 @@ export const validate = (employees) => {
 export const processAndValidate = async (loadedData) => {
   const employees = await process(loadedData);
   const validationErrors = validate(employees);
-
   return { employees, validationErrors };
 };
