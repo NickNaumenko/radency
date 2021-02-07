@@ -87,4 +87,48 @@ describe('Employee schema validation', () => {
       ).toMatchObject({ expirationDate: /^Date must be after/ });
     });
   });
+  describe('license States', () => {
+    const valid = ['AL', 'Alabama', 'AL|', 'AL|Delaware', 'Federated States Of Micronesia'];
+    const invalid = ['UA', 'Ukraine'];
+    valid.forEach((licenseStates) => {
+      test('valid license states', () => {
+        employee = { ...employee, licenseStates };
+        expect(employeeSchema.validate(employee)).toBeUndefined();
+      });
+    });
+    invalid.forEach((licenseStates) => {
+      test('invalid license states', () => {
+        employee = { ...employee, licenseStates };
+        expect(employeeSchema.validate(employee)).toMatchObject({ licenseStates: 'Input is not valid state' });
+      });
+    });
+  });
+  describe('Has children', () => {
+    describe('Excepts bool values', () => {
+      const valid = [true, false, '', null, undefined];
+      const invalid = ['noTrue', 'no false'];
+      valid.forEach((hasChildren) => {
+        test('valid Has children field', () => {
+          employee = { ...employee, hasChildren };
+          expect(employeeSchema.validate(employee)).toBeUndefined();
+        });
+      });
+      invalid.forEach((hasChildren) => {
+        test('invalid Has children field', () => {
+          employee = { ...employee, hasChildren };
+          expect(employeeSchema.validate(employee)).toMatchObject({ hasChildren: 'Input should be bool or null' });
+        });
+      });
+    });
+  });
+  describe('License number', () => {
+    test('Valid license number', () => {
+      employee = { ...employee, licenseNumber: '1xr567' };
+      expect(employeeSchema.validate(employee)).toBeUndefined();
+    });
+    test('Invalid license number', () => {
+      employee = { ...employee, licenseNumber: '4%r567' };
+      expect(employeeSchema.validate(employee)).not.toBeUndefined();
+    });
+  });
 });
