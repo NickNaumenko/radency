@@ -9,6 +9,7 @@ const CSVInput = ({ onChange = () => {}, ...rest }) => {
   const handleChange = async (e) => {
     const file = e.target.files[0];
     const { type, name } = file;
+
     onChange(name);
     const data = await loadFile(file);
     dispatch(removeEmployees());

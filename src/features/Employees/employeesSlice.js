@@ -16,7 +16,7 @@ const initialState = employeesAdapter.getInitialState({
 export const parseEmployees = createAsyncThunk(
   'employees/parse',
   async ({ type, data }) => {
-    const result = await parseAndProcessCSV(type, data);
+    const result = await parseAndProcessCSV(data, type);
     return result;
   },
 );
