@@ -39,4 +39,8 @@ const employeesSlice = createSlice({
 
 export const { addEmployees } = employeesSlice.actions;
 
+export const employeesSelectors = employeesAdapter.getSelectors(
+  ({ employees }) => employees,
+);
+
 export default employeesSlice.reducer;

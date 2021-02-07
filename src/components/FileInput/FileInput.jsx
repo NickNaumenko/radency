@@ -2,7 +2,7 @@ import camelCase from 'lodash/camelCase';
 import React from 'react';
 import { CSVReader } from 'react-papaparse';
 import { useDispatch } from 'react-redux';
-import { validateEmployees } from '../Employees/employeesSlice';
+import { validateEmployees } from '../../features/Employees/employeesSlice';
 
 const config = {
   header: true,

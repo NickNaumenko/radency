@@ -1,0 +1,46 @@
+[
+  {
+    "label": "id",
+    "accessor": "id"
+  },
+  {
+    "label": "Phone",
+    "accessor": "phone"
+  },
+  {
+    "label": "Email",
+    "accessor": "email"
+  },
+  {
+    "label": "Age",
+    "accessor": "age"
+  },
+  {
+    "label": "Experience",
+    "accessor": "experience"
+  },
+  {
+    "label": "Yearly Income",
+    "accessor": "yearlyIncome"
+  },
+  {
+    "label": "Has children",
+    "accessor": "hasChildren"
+  },
+  {
+    "label": "License states",
+    "accessor": "licenseStates"
+  },
+  {
+    "label": "Expiration date",
+    "accessor": "expirationDate"
+  },
+  {
+    "label": "License number",
+    "accessor": "licenseNumber"
+  },
+  {
+    "label": "Duplicate with",
+    "accessor": "duplicate"
+  }
+]
