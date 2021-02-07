@@ -4,6 +4,20 @@ import { PHONE_REGEXP } from '../../services/employeeSchema';
 import { employeesSelectors } from './employeesSlice';
 import { StyledTd } from './styles';
 
+const fieldTypes = {
+  phone(val) {
+    const phone = String(val);
+    return phone.match(PHONE_REGEXP) ? `+1${phone.slice(-10)}` : val;
+  },
+  hasChildren(val) {
+    return typeof val === 'boolean' ? String(val).toUpperCase() : val;
+  },
+  yearlyIncome(val) {
+    return val && val.toFixed(2);
+  },
+};
+const formatField = (accessor, val) => (fieldTypes[accessor] ? fieldTypes[accessor](val) : val);
+
 const Trow = ({ employeeId, headers }) => {
   const selectEmployee = (state) => employeesSelectors.selectById(state, employeeId);
   const selectValidationErrors = (state) => (
@@ -12,25 +26,11 @@ const Trow = ({ employeeId, headers }) => {
   const employee = useSelector(selectEmployee);
   const validationErrors = useSelector(selectValidationErrors);
 
-  const formatValue = (accessor) => {
-    const val = employee[accessor];
-    if (typeof val === 'boolean') {
-      return String(val).toUpperCase();
-    }
-    if (accessor === 'phone') {
-      const phone = String(val);
-      if (phone.match(PHONE_REGEXP)) {
-        return `+1${phone.slice(-10)}`;
-      }
-    }
-    return val;
-  };
-
   return (
     <tr>
       {headers.map(({ accessor }) => (
         <StyledTd key={accessor} error={validationErrors && validationErrors[accessor]}>
-          {formatValue(accessor)}
+          {formatField(accessor, employee[accessor])}
         </StyledTd>
       ))}
     </tr>
