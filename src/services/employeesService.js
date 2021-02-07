@@ -39,7 +39,7 @@ export const parseAndProcessCSV = async (type, file) => {
   if (!fileTypes.has(type)) {
     throw new Error('Incorrect file type');
   }
-  await new Promise((res) => setTimeout(res, 10000));
+  await new Promise((res) => setTimeout(res));
   const parsed = Papa.parse(file, parserConfig);
   const employees = process(parsed);
 

@@ -1,10 +1,15 @@
 import React from 'react';
-import CSVInput from '../CSVInput/CSVInput';
-import { StyledHeader } from './styles';
+import MainInput from '../CSVInput/MainInput';
+import Container from '../shared/Container/Container';
+import { HeaderContent, StyledHeader } from './styles';
 
 const Header = () => (
   <StyledHeader>
-    <CSVInput />
+    <Container>
+      <HeaderContent>
+        <MainInput />
+      </HeaderContent>
+    </Container>
   </StyledHeader>
 );
 

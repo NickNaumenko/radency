@@ -4,6 +4,10 @@
     "accessor": "id"
   },
   {
+    "label": "Full name",
+    "accessor": "fullName"
+  },
+  {
     "label": "Phone",
     "accessor": "phone"
   },

@@ -40,6 +40,14 @@ const GlobalStyles = createGlobalStyle`
     font-size: 25px;
   }
 
+  .visually-hidden {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+
   @media (min-width: 768px) {
     body {
       font-size: 14px;

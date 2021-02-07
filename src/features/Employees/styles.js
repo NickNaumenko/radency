@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const TableWrapper = styled.div`
   width: 100%;
-  max-width: 1260px;
+  max-width: 1200px;
   max-height: calc(100vh - 80px);
   margin: 0 auto;
   overflow-x: auto;
