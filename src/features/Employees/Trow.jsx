@@ -1,3 +1,4 @@
+import { isNull } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { PHONE_REGEXP } from '../../services/employeeSchema';
@@ -10,7 +11,7 @@ const fieldTypes = {
     return phone.match(PHONE_REGEXP) ? `+1${phone.slice(-10)}` : val;
   },
   hasChildren(val) {
-    return String(val).toUpperCase();
+    return typeof val === 'boolean' || isNull(val) ? String(Boolean(val)).toUpperCase() : val;
   },
   yearlyIncome(val) {
     return typeof val === 'number' ? val.toFixed(2) : val;
