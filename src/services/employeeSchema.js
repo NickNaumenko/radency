@@ -8,7 +8,7 @@ states.forEach(({ abbreviation, name }) => {
 });
 
 const NOW = new Date();
-const DATE_REGEXP = /^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$|^(0[1-9]|1[012])\/([123]0|[012][1-9]|31)\/(19[0-9]{2}|2[0-9]{3})$/;
+export const DATE_REGEXP = /^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$|^(0[1-9]|1[012])\/([123]0|[012][1-9]|31)\/(19[0-9]{2}|2[0-9]{3})$/;
 export const EMPLOYEE_REQUIRED_FIELDS = new Set(['fullName', 'phone', 'email']);
 export const EMPLOYEE_UNIQUE_FIELDS = ['fullName', 'phone', 'email'];
 
@@ -16,10 +16,10 @@ const employeeSchema = Nope.object().shape({
   fullName: Nope.string().required(),
   phone: Nope.string().regex(/^(\+?1)?\d{10}$/).required(),
   email: Nope.string().email().required(),
-  age: Nope.number().positive().min(21),
-  experience: Nope.number().positive().integer().max(21),
-  yearlyIncome: Nope.number().positive().max(1e6),
-  hasChildren: Nope.boolean(),
+  age: Nope.number().positive().integer().atLeast(21),
+  experience: Nope.number().positive().integer().atMost(21),
+  yearlyIncome: Nope.number().positive().atMost(1e6),
+  hasChildren: Nope.string().test((value) => (value === 'true' || 'false' || 'null' || 'undefined' || '' ? undefined : 'Input should be bool or null')),
   licenseStates: Nope.string(),
   expirationDate: Nope.string()
     .regex(DATE_REGEXP)
