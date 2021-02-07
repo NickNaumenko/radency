@@ -12,7 +12,7 @@ export const DATE_REGEXP = /^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012
 export const EMPLOYEE_REQUIRED_FIELDS = new Set(['fullName', 'phone', 'email']);
 export const EMPLOYEE_UNIQUE_FIELDS = ['phone', 'email'];
 export const PHONE_REGEXP = /^(\+?1)?\d{10}$/;
-const VALID_HAS_CHILDREN = new Set([true, false, null, undefined, 'true', 'false', 'null', 'undefined', '']);
+const VALID_HAS_CHILDREN = new Set([true, false, null, 'true', 'false', 'null', '']);
 
 const employeeSchema = Nope.object().shape({
   fullName: Nope.string().required(),

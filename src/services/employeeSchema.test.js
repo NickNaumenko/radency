@@ -127,7 +127,7 @@ describe('Employee schema validation', () => {
   });
   describe('Has children', () => {
     describe('Excepts bool values', () => {
-      const valid = [true, false, '', null, undefined];
+      const valid = [true, false, '', null];
       const invalid = ['noTrue', 'no false', 0, -0];
       valid.forEach((hasChildren) => {
         test('valid Has children field', () => {
