@@ -1,5 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { processAndValidate } from '../../services/employeesService';
+import { parseAndProcessCSV } from '../../services/employeesService';
 
 const employeesAdapter = createEntityAdapter({
   selectId: ({ id }) => id,
@@ -11,10 +11,10 @@ const initialState = employeesAdapter.getInitialState({
   error: null,
 });
 
-export const validateEmployees = createAsyncThunk(
-  'employees/validate',
-  async (loadedData) => {
-    const result = await processAndValidate(loadedData);
+export const parseEmployees = createAsyncThunk(
+  'employees/parse',
+  async ({ type, data }) => {
+    const result = await parseAndProcessCSV(type, data);
     return result;
   },
 );
@@ -28,12 +28,12 @@ const employeesSlice = createSlice({
     },
   },
   extraReducers: {
-    [validateEmployees.fulfilled]: (state, { payload }) => {
+    [parseEmployees.fulfilled]: (state, { payload }) => {
       const { employees, validationErrors } = payload;
       employeesAdapter.setAll(state, employees);
       state.validationErrors = validationErrors;
     },
-    [validateEmployees.rejected]: (state, { error }) => {
+    [parseEmployees.rejected]: (state, { error }) => {
       state.error = error;
     },
   },

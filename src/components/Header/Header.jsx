@@ -1,10 +1,10 @@
 import React from 'react';
-import FileInput from '../FileInput/FileInput';
+import CSVInput from '../CSVInput/CSVInput';
 import { StyledHeader } from './styles';
 
 const Header = () => (
   <StyledHeader>
-    <FileInput />
+    <CSVInput />
   </StyledHeader>
 );
 
