@@ -10,7 +10,7 @@ states.forEach(({ abbreviation, name }) => {
 const NOW = new Date();
 export const DATE_REGEXP = /^(19[0-9]{2}|2[0-9]{3})-(0[1-9]|1[012])-([123]0|[012][1-9]|31)$|^(0[1-9]|1[012])\/([123]0|[012][1-9]|31)\/(19[0-9]{2}|2[0-9]{3})$/;
 export const EMPLOYEE_REQUIRED_FIELDS = new Set(['fullName', 'phone', 'email']);
-export const EMPLOYEE_UNIQUE_FIELDS = ['fullName', 'phone', 'email'];
+export const EMPLOYEE_UNIQUE_FIELDS = ['phone', 'email'];
 const VALID_HAS_CHILDREN = new Set([true, false, null, undefined, 'true', 'false', 'null', 'undefined', '']);
 
 const employeeSchema = Nope.object().shape({
