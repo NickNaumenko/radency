@@ -15,30 +15,26 @@ const validEmployee = {
 };
 
 describe('Employee schema validation', () => {
-  let employee;
-  beforeEach(() => {
-    employee = { ...validEmployee };
-  });
   test('valid employee data', () => {
     expect(employeeSchema.validate(validEmployee)).toBeUndefined();
   });
 
   describe('Full name validation', () => {
     test('Full name is missed', () => {
-      employee = { ...employee, fullName: null };
+      const employee = { ...validEmployee, fullName: null };
       expect(employeeSchema.validate(employee)).toEqual({ fullName: 'This field is required' });
     });
   });
   describe('Email validation', () => {
     emails.valid.forEach((email) => {
       test('valid email', () => {
-        employee = { ...employee, email };
+        const employee = { ...validEmployee, email };
         expect(employeeSchema.validate(employee)).toBeUndefined();
       });
     });
     emails.invalid.forEach((email) => {
       test('invalid email', () => {
-        employee = { ...employee, email };
+        const employee = { ...validEmployee, email };
         expect(employeeSchema.validate(employee)).toEqual({ email: 'Input is not a valid email' });
       });
     });
@@ -47,23 +43,45 @@ describe('Employee schema validation', () => {
     const valid = [21, 33, 100];
     valid.forEach((age) => {
       test('Valid age', () => {
-        employee = { ...employee, age };
+        const employee = { ...validEmployee, age };
         expect(employeeSchema.validate(employee)).toBeUndefined();
       });
     });
     test('positive', () => {
-      employee = { ...employee, age: -33 };
+      const employee = { ...validEmployee, age: -33 };
       expect(employeeSchema.validate(employee)).toEqual({ age: 'Input must be positive' });
     });
     test('At least 21', () => {
-      employee = { ...employee, age: 20 };
+      const employee = { ...validEmployee, age: 20 };
       expect(employeeSchema.validate(employee)).toEqual({ age: 'Input is too small' });
     });
     test('Integer', () => {
-      employee = { ...employee, age: 20.5 };
+      const employee = { ...validEmployee, age: 20.5 };
       expect(employeeSchema.validate(employee)).toEqual({ age: 'Input must be an integer' });
     });
   });
+
+  describe('Experience validation', () => {
+    test('Error if missed', () => {
+      const employee = { ...validEmployee, experience: null };
+      expect(employeeSchema.validate(employee)).toMatchObject({ experience: /.*/ });
+    });
+  });
+
+  describe('Yearly income validation', () => {
+    test('Error if is missed', () => {
+      const employee = { ...validEmployee, yearlyIncome: null };
+      expect(employeeSchema.validate(employee)).toMatchObject({ yearlyIncome: /.*/ });
+    });
+  });
+
+  describe('Yearly income validation', () => {
+    test('Error if is missed', () => {
+      const employee = { ...validEmployee, yearlyIncome: null };
+      expect(employeeSchema.validate(employee)).toMatchObject({ yearlyIncome: /.*/ });
+    });
+  });
+
   describe('Date validation', () => {
     const d = new Date(Date.now() + 1e5);
     const yyyy = d.getFullYear();
@@ -71,7 +89,7 @@ describe('Employee schema validation', () => {
     const invalid = `${yyyy - 1}-12-31`;
     valid.forEach((expirationDate) => {
       test('valid date', () => {
-        employee = { ...employee, expirationDate };
+        const employee = { ...validEmployee, expirationDate };
         expect(employeeSchema.validate(employee)).toBeUndefined();
       });
     });
@@ -83,8 +101,12 @@ describe('Employee schema validation', () => {
     });
     test('Date must be after', () => {
       expect(
-        employeeSchema.validate({ ...employee, expirationDate: invalid }),
+        employeeSchema.validate({ ...validEmployee, expirationDate: invalid }),
       ).toMatchObject({ expirationDate: /^Date must be after/ });
+    });
+    test('Error if is missed', () => {
+      const employee = { ...validEmployee, expirationDate: null };
+      expect(employeeSchema.validate(employee)).toMatchObject({ expirationDate: /.*/ });
     });
   });
   describe('license States', () => {
@@ -92,13 +114,13 @@ describe('Employee schema validation', () => {
     const invalid = ['UA', 'Ukraine'];
     valid.forEach((licenseStates) => {
       test('valid license states', () => {
-        employee = { ...employee, licenseStates };
+        const employee = { ...validEmployee, licenseStates };
         expect(employeeSchema.validate(employee)).toBeUndefined();
       });
     });
     invalid.forEach((licenseStates) => {
       test('invalid license states', () => {
-        employee = { ...employee, licenseStates };
+        const employee = { ...validEmployee, licenseStates };
         expect(employeeSchema.validate(employee)).toMatchObject({ licenseStates: 'Input is not valid state' });
       });
     });
@@ -106,16 +128,16 @@ describe('Employee schema validation', () => {
   describe('Has children', () => {
     describe('Excepts bool values', () => {
       const valid = [true, false, '', null, undefined];
-      const invalid = ['noTrue', 'no false'];
+      const invalid = ['noTrue', 'no false', 0, -0];
       valid.forEach((hasChildren) => {
         test('valid Has children field', () => {
-          employee = { ...employee, hasChildren };
+          const employee = { ...validEmployee, hasChildren };
           expect(employeeSchema.validate(employee)).toBeUndefined();
         });
       });
       invalid.forEach((hasChildren) => {
         test('invalid Has children field', () => {
-          employee = { ...employee, hasChildren };
+          const employee = { ...validEmployee, hasChildren };
           expect(employeeSchema.validate(employee)).toMatchObject({ hasChildren: 'Input should be bool or null' });
         });
       });
@@ -123,11 +145,11 @@ describe('Employee schema validation', () => {
   });
   describe('License number', () => {
     test('Valid license number', () => {
-      employee = { ...employee, licenseNumber: '1xr567' };
+      const employee = { ...validEmployee, licenseNumber: '1xr567' };
       expect(employeeSchema.validate(employee)).toBeUndefined();
     });
     test('Invalid license number', () => {
-      employee = { ...employee, licenseNumber: '4%r567' };
+      const employee = { ...validEmployee, licenseNumber: '4%r567' };
       expect(employeeSchema.validate(employee)).not.toBeUndefined();
     });
   });
