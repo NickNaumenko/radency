@@ -6,6 +6,11 @@ const employeesAdapter = createEntityAdapter({
   sortComparer: ({ id: id1 }, { id: id2 }) => id1 - id2,
 });
 
+const initialState = employeesAdapter.getInitialState({
+  validationErrors: {},
+  error: null,
+});
+
 export const validateEmployees = createAsyncThunk(
   'employees/validate',
   async (loadedData) => {
@@ -16,13 +21,10 @@ export const validateEmployees = createAsyncThunk(
 
 const employeesSlice = createSlice({
   name: 'employees',
-  initialState: employeesAdapter.getInitialState({
-    validationErrors: {},
-    error: null,
-  }),
+  initialState,
   reducers: {
-    addEmployees(state, action) {
-      employeesAdapter.setAll(state, action.payload);
+    removeEmployees() {
+      return initialState;
     },
   },
   extraReducers: {
@@ -37,13 +39,14 @@ const employeesSlice = createSlice({
   },
 });
 
-export const { addEmployees } = employeesSlice.actions;
+export const { removeEmployees } = employeesSlice.actions;
 
 export const employeesSelectors = {
   ...(employeesAdapter.getSelectors(
     ({ employees }) => employees,
   )),
   selectValidationErrorsById: ({ employees }, id) => employees.validationErrors[id],
+  selectError: ({ employees }) => employees.error,
 };
 
 export default employeesSlice.reducer;

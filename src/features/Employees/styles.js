@@ -43,3 +43,17 @@ export const StyledTable = styled.table`
 export const StyledTd = styled.td`
   background-color: ${({ error }) => error && 'var(--color-secondary-2-1)'};
 `;
+
+export const MessageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+`;
+
+export const ErrorMessage = styled.div`
+  padding: 2em;
+  font-size: 18px;
+  text-align: center;
+  background-color: var(--color-secondary-2-1);
+`;

@@ -4,13 +4,22 @@ import { employeesSelectors } from './employeesSlice';
 import tableHeaders from '../../config/tableHeaders.json';
 import Trow from './Trow';
 import {
+  ErrorMessage,
+  MessageWrapper,
   StyledTable, TableWrapper,
 } from './styles';
 
 const Employees = () => {
   const employees = useSelector(employeesSelectors.selectIds);
+  const error = useSelector(employeesSelectors.selectError);
 
-  return (
+  return error ? (
+    <MessageWrapper>
+      <ErrorMessage>
+        File format is not correct
+      </ErrorMessage>
+    </MessageWrapper>
+  ) : (
     <TableWrapper>
       <StyledTable>
         <thead>
