@@ -18,9 +18,17 @@ const employeeSchema = Nope.object().shape({
   fullName: Nope.string().required(),
   phone: Nope.string().regex(PHONE_REGEXP).required(),
   email: Nope.string().email().required(),
-  age: Nope.number().positive().integer().atLeast(21),
-  experience: Nope.number().positive().integer().atMost(21),
-  yearlyIncome: Nope.number().positive().atMost(1e6),
+  age: Nope.number()
+    .positive()
+    .integer()
+    .atLeast(21)
+    .required(),
+  experience: Nope.number()
+    .positive()
+    .integer()
+    .atMost(21)
+    .required(),
+  yearlyIncome: Nope.number().positive().atMost(1e6).required(),
   hasChildren: Nope.string().test((value) => (VALID_HAS_CHILDREN.has(value) ? undefined : 'Input should be bool or null')),
   licenseStates: Nope.string().test((str) => {
     if (typeof str !== 'string') {
@@ -34,8 +42,9 @@ const employeeSchema = Nope.object().shape({
   }),
   expirationDate: Nope.string()
     .regex(DATE_REGEXP)
-    .test((value) => Nope.date().after(NOW).validate(value)),
-  licenseNumber: Nope.string().exactLength(6).regex(/(\d|\w){6}/),
+    .test((value) => Nope.date().after(NOW).validate(value))
+    .required(),
+  licenseNumber: Nope.string().exactLength(6).regex(/(\d|\w){6}/).required(),
 });
 
 export default employeeSchema;
