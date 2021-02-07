@@ -2,13 +2,16 @@ import styled from 'styled-components';
 
 export const TableWrapper = styled.div`
   width: 100%;
+  max-width: 1260px;
   max-height: calc(100vh - 80px);
+  margin: 0 auto;
   overflow-x: auto;
 `;
 
 export const StyledTable = styled.table`
   min-width: 100%;
   border-collapse: collapse;
+  border-right: 2px solid var(--color-primary-4);
 
   thead {
     position: sticky;
@@ -32,11 +35,11 @@ export const StyledTable = styled.table`
     top: 0;
     color: var(--color-primary-4);
     background-color: var(--color-primary-1);
-    box-shadow: inset 2px 2px #000, 0 2px #000;
+    box-shadow: inset 2px 2px var(--color-primary-4), 0 2px var(--color-primary-4);
   }
 
   td {
-    box-shadow: inset 2px -2px #000;
+    box-shadow: inset 2px -2px var(--color-primary-4);
   }
 `;
 
