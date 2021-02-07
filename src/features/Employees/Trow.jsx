@@ -15,7 +15,11 @@ const Trow = ({ employeeId, headers }) => {
     <tr>
       {headers.map(({ accessor }) => (
         <StyledTd key={accessor} error={validationErrors && validationErrors[accessor]}>
-          {employee[accessor]}
+          {
+            typeof employee[accessor] === 'boolean'
+              ? String(employee[accessor]).toUpperCase()
+              : employee[accessor]
+          }
         </StyledTd>
       ))}
     </tr>
