@@ -10,7 +10,6 @@ const CSVInput = () => {
     const file = e.target.files[0];
     const { type } = file;
     const data = await loadFile(file);
-
     dispatch(parseEmployees({ type, data }));
   };
 

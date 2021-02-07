@@ -8,18 +8,29 @@ import {
   MessageWrapper,
   StyledTable, TableWrapper,
 } from './styles';
+import { statuses } from '../../helpers/constants';
+import Loader from '../../components/shared/Loader/Loader';
 
 const Employees = () => {
   const employees = useSelector(employeesSelectors.selectIds);
-  const error = useSelector(employeesSelectors.selectError);
+  const status = useSelector(employeesSelectors.selectStatus);
 
-  return error ? (
-    <MessageWrapper>
-      <ErrorMessage>
-        File format is not correct
-      </ErrorMessage>
-    </MessageWrapper>
-  ) : (
+  if (status === statuses.IDLE) {
+    return <></>;
+  }
+  if (status === statuses.LOADING) {
+    return <Loader />;
+  }
+  if (status === statuses.FAILED) {
+    return (
+      <MessageWrapper>
+        <ErrorMessage>
+          File format is not correct
+        </ErrorMessage>
+      </MessageWrapper>
+    );
+  }
+  return (
     <TableWrapper>
       <StyledTable>
         <thead>

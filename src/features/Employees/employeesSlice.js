@@ -1,4 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { statuses } from '../../helpers/constants';
 import { parseAndProcessCSV } from '../../services/employeesService';
 
 const employeesAdapter = createEntityAdapter({
@@ -9,6 +10,7 @@ const employeesAdapter = createEntityAdapter({
 const initialState = employeesAdapter.getInitialState({
   validationErrors: {},
   error: null,
+  status: statuses.IDLE,
 });
 
 export const parseEmployees = createAsyncThunk(
@@ -28,13 +30,18 @@ const employeesSlice = createSlice({
     },
   },
   extraReducers: {
+    [parseEmployees.pending]: (state) => {
+      state.status = statuses.LOADING;
+    },
     [parseEmployees.fulfilled]: (state, { payload }) => {
       const { employees, validationErrors } = payload;
       employeesAdapter.setAll(state, employees);
       state.validationErrors = validationErrors;
+      state.status = statuses.SUCCEEDED;
     },
     [parseEmployees.rejected]: (state, { error }) => {
       state.error = error;
+      state.status = statuses.FAILED;
     },
   },
 });
@@ -47,6 +54,7 @@ export const employeesSelectors = {
   )),
   selectValidationErrorsById: ({ employees }, id) => employees.validationErrors[id],
   selectError: ({ employees }) => employees.error,
+  selectStatus: ({ employees }) => employees.status,
 };
 
 export default employeesSlice.reducer;
