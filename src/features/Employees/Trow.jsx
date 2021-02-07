@@ -10,13 +10,15 @@ const fieldTypes = {
     return phone.match(PHONE_REGEXP) ? `+1${phone.slice(-10)}` : val;
   },
   hasChildren(val) {
-    return typeof val === 'boolean' ? String(val).toUpperCase() : val;
+    return String(val).toUpperCase();
   },
   yearlyIncome(val) {
-    return val && val.toFixed(2);
+    return typeof val === 'number' ? val.toFixed(2) : val;
   },
 };
-const formatField = (accessor, val) => (fieldTypes[accessor] ? fieldTypes[accessor](val) : val);
+const formatField = (accessor, val) => (
+  fieldTypes[accessor] ? fieldTypes[accessor](val) : val
+);
 
 const Trow = ({ employeeId, headers }) => {
   const selectEmployee = (state) => employeesSelectors.selectById(state, employeeId);
@@ -24,12 +26,12 @@ const Trow = ({ employeeId, headers }) => {
     employeesSelectors.selectValidationErrorsById(state, employeeId)
   );
   const employee = useSelector(selectEmployee);
-  const validationErrors = useSelector(selectValidationErrors);
+  const validationErrors = useSelector(selectValidationErrors) || {};
 
   return (
     <tr>
       {headers.map(({ accessor }) => (
-        <StyledTd key={accessor} error={validationErrors && validationErrors[accessor]}>
+        <StyledTd key={accessor} error={validationErrors[accessor]}>
           {formatField(accessor, employee[accessor])}
         </StyledTd>
       ))}
