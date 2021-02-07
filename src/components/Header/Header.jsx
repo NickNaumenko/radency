@@ -1,10 +1,11 @@
 import React from 'react';
 import FileInput from '../FileInput/FileInput';
+import { StyledHeader } from './styles';
 
 const Header = () => (
-  <header>
+  <StyledHeader>
     <FileInput />
-  </header>
+  </StyledHeader>
 );
 
 export default Header;
