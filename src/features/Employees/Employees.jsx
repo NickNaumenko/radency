@@ -6,6 +6,7 @@ import Trow from './Trow';
 import {
   ErrorMessage,
   MessageWrapper,
+  NoRows,
   StyledTable, TableWrapper,
 } from './styles';
 import { statuses } from '../../helpers/constants';
@@ -54,6 +55,13 @@ const Employees = () => {
           ))}
         </tbody>
       </StyledTable>
+      {!employees.length && (
+      <NoRows>
+        ¯\_(ツ)_/¯
+        <br />
+        There is no data
+      </NoRows>
+      )}
     </TableWrapper>
   );
 };

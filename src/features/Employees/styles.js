@@ -60,3 +60,14 @@ export const ErrorMessage = styled.div`
   text-align: center;
   background-color: var(--color-secondary-2-1);
 `;
+
+export const NoRows = styled.div`
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1.6;
+  text-align: center;
+`;
