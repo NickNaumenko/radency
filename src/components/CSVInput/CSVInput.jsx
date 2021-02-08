@@ -8,6 +8,9 @@ const CSVInput = ({ onChange = () => {}, ...rest }) => {
 
   const handleChange = async (e) => {
     const file = e.target.files[0];
+    if (!file) {
+      return;
+    }
     const { type, name } = file;
 
     onChange(name);

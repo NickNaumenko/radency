@@ -26,7 +26,7 @@ const parser = new CSVParser();
 const validator = new Validator(employeeSchema, EMPLOYEE_REQUIRED_FIELDS);
 const formatter = new Formatter(fields);
 
-export const assignIds = (data) => {
+const assignIds = (data) => {
   const getId = idGenerator(START_ID);
 
   return data.map((obj) => {
@@ -36,6 +36,7 @@ export const assignIds = (data) => {
 };
 
 export const parseAndProcessCSV = async (fileOrURL, type) => {
+  await new Promise((res) => setTimeout(res)); // Time to render before processing data
   if (type && !fileTypes.has(type)) {
     throw new Error('Incorrect file type');
   }
