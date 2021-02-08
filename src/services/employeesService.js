@@ -4,30 +4,35 @@ import CSVParser from './CSVParser';
 import employeeSchema, {
   EMPLOYEE_REQUIRED_FIELDS,
   EMPLOYEE_UNIQUE_FIELDS,
-  PHONE_REGEXP,
 } from './employeeSchema';
+import Formatter from './Formatter';
 import Validator from './Validator';
 
 const fileTypes = new Set(['text/csv']);
 const START_ID = 1;
+const fields = {
+  phone(val, isValid) {
+    return isValid ? `+1${String(val).slice(-10)}` : val;
+  },
+  hasChildren(val, isValid) {
+    return isValid ? String(Boolean(val)).toUpperCase() : val;
+  },
+  yearlyIncome(val, isValid) {
+    return isValid ? val.toFixed(2) : val;
+  },
+};
 
 const parser = new CSVParser();
 const validator = new Validator(employeeSchema, EMPLOYEE_REQUIRED_FIELDS);
+const formatter = new Formatter(fields);
 
-export const process = (data) => {
+export const assignIds = (data) => {
   const getId = idGenerator(START_ID);
 
-  const employees = data.map((obj) => {
+  return data.map((obj) => {
     obj.id = getId();
-    if (String(obj.phone).match(PHONE_REGEXP)) {
-      obj.phone = String(obj.phone).slice(-10);
-    }
     return obj;
   });
-
-  const withDuplicates = findDuplicates(employees, EMPLOYEE_UNIQUE_FIELDS);
-
-  return withDuplicates;
 };
 
 export const parseAndProcessCSV = async (fileOrURL, type) => {
@@ -41,8 +46,10 @@ export const parseAndProcessCSV = async (fileOrURL, type) => {
     parsed = await parser.downloadAndParse(fileOrURL);
   }
 
-  const employees = process(parsed.data);
+  const employees = assignIds(parsed.data);
   const validationErrors = validator.validateArray(employees);
+  const formatted = formatter.formatArrayOf(employees, validationErrors);
+  const withDuplicates = findDuplicates(formatted, EMPLOYEE_UNIQUE_FIELDS);
 
-  return { employees, validationErrors };
+  return { employees: withDuplicates, validationErrors };
 };

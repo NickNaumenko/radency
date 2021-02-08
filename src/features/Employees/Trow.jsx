@@ -1,25 +1,7 @@
-import { isNull } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { PHONE_REGEXP } from '../../services/employeeSchema';
 import { employeesSelectors } from './employeesSlice';
 import { StyledTd } from './styles';
-
-const fieldTypes = {
-  phone(val) {
-    const phone = String(val);
-    return phone.match(PHONE_REGEXP) ? `+1${phone.slice(-10)}` : val;
-  },
-  hasChildren(val) {
-    return typeof val === 'boolean' || isNull(val) ? String(Boolean(val)).toUpperCase() : val;
-  },
-  yearlyIncome(val) {
-    return typeof val === 'number' ? val.toFixed(2) : val;
-  },
-};
-const formatField = (accessor, val) => (
-  fieldTypes[accessor] ? fieldTypes[accessor](val) : val
-);
 
 const Trow = ({ employeeId, headers }) => {
   const selectEmployee = (state) => employeesSelectors.selectById(state, employeeId);
@@ -33,7 +15,7 @@ const Trow = ({ employeeId, headers }) => {
     <tr>
       {headers.map(({ accessor }) => (
         <StyledTd key={accessor} error={validationErrors[accessor]}>
-          {formatField(accessor, employee[accessor])}
+          {employee[accessor]}
         </StyledTd>
       ))}
     </tr>
