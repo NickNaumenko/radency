@@ -1,6 +1,6 @@
 full_name,phone,email,age,experience,yearly_income,has_children,license_states,expiration_date,license_number
-Joane Beahan,8169269440,jbeahan0@buzzfeed.com,32,26,702.6,true,MO,2021-09-09,r7e38p
-Sarine Bonds,9156773064,sbonds1@virginia.edu,,4,,false,TX,2021-09-25,iu5ehn
+Joane Beahan,8169269440,jbeahan0@buzzfeed.com,32,26,702.6,0,MO,2021-09-09,r7e38p
+Sarine Bonds,9156773064,sbonds1@virginia.edu,,4,,not boolean,TX,2021-09-25,iu5ehn
 Saloma Francesc,2039250663,sfrancesc2@google.com,29,24,6453.83,false,CT,2021-04-13,papt6r
 Lucio Bramo,5015688489,lbramo3@princeton.edu,96,2,1170.07,true,AR,2021-09-11,gl4mnw
 Raff Baud,5593601090,rbaud4@desdev.cn,98,,5682.43,,CA,2021-03-09,jsl715
