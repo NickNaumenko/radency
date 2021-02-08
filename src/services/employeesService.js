@@ -10,6 +10,7 @@ import Validator from './Validator';
 const fileTypes = new Set(['text/csv']);
 const START_ID = 1;
 
+const parser = new CSVParser();
 const validator = new Validator(employeeSchema, EMPLOYEE_REQUIRED_FIELDS);
 
 export const process = (data) => {
@@ -31,9 +32,9 @@ export const parseAndProcessCSV = async (fileOrURL, type) => {
   }
   let parsed;
   if (type) {
-    parsed = await CSVParser.parse(fileOrURL);
+    parsed = await parser.parse(fileOrURL);
   } else {
-    parsed = await CSVParser.downloadAndParse(fileOrURL);
+    parsed = await parser.downloadAndParse(fileOrURL);
   }
 
   const employees = process(parsed.data);

@@ -15,20 +15,28 @@ const baseConfig = {
 };
 
 class CSVParser {
-  static async parse(file) {
-    return Papa.parse(file, baseConfig);
+  constructor(options) {
+    this.config = { ...baseConfig, ...options };
   }
 
-  static downloadAndParse(url) {
+  parseOrDownload(fileOrURL, options) {
     return new Promise((res, rej) => {
       const config = {
-        ...baseConfig,
-        download: true,
+        ...this.config,
+        ...options,
         complete: res,
         error: rej,
       };
-      Papa.parse(url, config);
+      Papa.parse(fileOrURL, config);
     });
+  }
+
+  parse(file) {
+    return this.parseOrDownload(file);
+  }
+
+  downloadAndParse(url) {
+    return this.parseOrDownload(url, { download: true });
   }
 }
 
