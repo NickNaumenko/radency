@@ -22,9 +22,6 @@ const Employees = () => {
     dispatch(parseEmployees({ data }));
   }, []);
 
-  if (status === statuses.IDLE) {
-    return <></>;
-  }
   if (status === statuses.LOADING) {
     return <Loader />;
   }
