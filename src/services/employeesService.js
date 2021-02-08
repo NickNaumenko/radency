@@ -4,6 +4,7 @@ import CSVParser from './CSVParser';
 import employeeSchema, {
   EMPLOYEE_REQUIRED_FIELDS,
   EMPLOYEE_UNIQUE_FIELDS,
+  PHONE_REGEXP,
 } from './employeeSchema';
 import Validator from './Validator';
 
@@ -18,6 +19,9 @@ export const process = (data) => {
 
   const employees = data.map((obj) => {
     obj.id = getId();
+    if (String(obj.phone).match(PHONE_REGEXP)) {
+      obj.phone = String(obj.phone).slice(-10);
+    }
     return obj;
   });
 
