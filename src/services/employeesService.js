@@ -35,22 +35,27 @@ const assignIds = (data) => {
   });
 };
 
-export const parseAndProcessCSV = async (fileOrURL, type) => {
-  await new Promise((res) => setTimeout(res)); // Time to render before processing data
-  if (type && !fileTypes.has(type)) {
-    throw new Error('Incorrect file type');
-  }
-  let parsed;
-  if (type) {
-    parsed = await parser.parse(fileOrURL);
-  } else {
-    parsed = await parser.downloadAndParse(fileOrURL);
-  }
-
-  const employees = assignIds(parsed.data);
+const processData = (data) => {
+  const employees = assignIds(data);
   const validationErrors = validator.validateArray(employees);
   const formatted = formatter.formatArrayOf(employees, validationErrors);
   const withDuplicates = findDuplicates(formatted, EMPLOYEE_UNIQUE_FIELDS);
 
   return { employees: withDuplicates, validationErrors };
+};
+
+export const parse = async ({ data, meta: { type } }) => {
+  if (!fileTypes.has(type)) {
+    throw new Error('Incorrect file type');
+  }
+  await new Promise((res) => setTimeout(res)); // Enqueue to macrotasks to render loader before work
+  const parsed = await parser.parse(data);
+
+  return processData(parsed.data);
+};
+
+export const downloadAndParse = async (url) => {
+  const parsed = await parser.downloadAndParse(url);
+
+  return processData(parsed.data);
 };

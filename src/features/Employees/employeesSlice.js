@@ -1,6 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { statuses } from '../../helpers/constants';
-import { parseAndProcessCSV } from '../../services/employeesService';
+import { downloadAndParse, parse } from '../../services/employeesService';
 
 const employeesAdapter = createEntityAdapter({
   selectId: ({ id }) => id,
@@ -15,11 +15,33 @@ const initialState = employeesAdapter.getInitialState({
 
 export const parseEmployees = createAsyncThunk(
   'employees/parse',
-  async ({ type, data }) => {
-    const result = await parseAndProcessCSV(data, type);
+  async (payload) => {
+    const result = await parse(payload);
     return result;
   },
 );
+
+export const downloadAndParseEmployees = createAsyncThunk(
+  'employees/downloadAndParse',
+  async ({ url }) => {
+    const result = await downloadAndParse(url);
+    return result;
+  },
+);
+
+const setLoading = (state) => {
+  state.status = statuses.LOADING;
+};
+const setEmployees = (state, { payload }) => {
+  const { employees, validationErrors } = payload;
+  employeesAdapter.setAll(state, employees);
+  state.validationErrors = validationErrors;
+  state.status = statuses.SUCCEEDED;
+};
+const rejectEmployees = (state, { error }) => {
+  state.error = error;
+  state.status = statuses.FAILED;
+};
 
 const employeesSlice = createSlice({
   name: 'employees',
@@ -30,19 +52,12 @@ const employeesSlice = createSlice({
     },
   },
   extraReducers: {
-    [parseEmployees.pending]: (state) => {
-      state.status = statuses.LOADING;
-    },
-    [parseEmployees.fulfilled]: (state, { payload }) => {
-      const { employees, validationErrors } = payload;
-      employeesAdapter.setAll(state, employees);
-      state.validationErrors = validationErrors;
-      state.status = statuses.SUCCEEDED;
-    },
-    [parseEmployees.rejected]: (state, { error }) => {
-      state.error = error;
-      state.status = statuses.FAILED;
-    },
+    [parseEmployees.pending]: setLoading,
+    [parseEmployees.fulfilled]: setEmployees,
+    [parseEmployees.rejected]: rejectEmployees,
+    [downloadAndParseEmployees.pending]: setLoading,
+    [downloadAndParseEmployees.fulfilled]: setEmployees,
+    [downloadAndParseEmployees.rejected]: rejectEmployees,
   },
 });
 
