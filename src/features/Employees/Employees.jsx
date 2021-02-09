@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { employeesSelectors, parseEmployees } from './employeesSlice';
+import { downloadAndParseEmployees, employeesSelectors } from './employeesSlice';
 import tableHeaders from '../../config/tableHeaders.json';
 import Trow from './Trow';
 import {
@@ -11,7 +11,7 @@ import {
 } from './styles';
 import { statuses } from '../../helpers/constants';
 import Loader from '../../components/shared/Loader/Loader';
-import data from '../../data/1K.csv';
+import fileUrl from '../../data/1K.csv';
 
 const Employees = () => {
   const employees = useSelector(employeesSelectors.selectIds);
@@ -19,7 +19,7 @@ const Employees = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(parseEmployees({ data }));
+    dispatch(downloadAndParseEmployees({ url: fileUrl }));
   }, []);
 
   if (status === statuses.LOADING) {

@@ -11,12 +11,19 @@ const CSVInput = ({ onChange = () => {}, ...rest }) => {
     if (!file) {
       return;
     }
-    const { type, name } = file;
+    const {
+      name, size, lastModified, type,
+    } = file;
 
     onChange(name);
     const data = await loadFile(file);
     dispatch(removeEmployees());
-    dispatch(parseEmployees({ type, data }));
+    dispatch(parseEmployees({
+      meta: {
+        name, size, type, lastModified,
+      },
+      data,
+    }));
   };
 
   // eslint-disable-next-line react/jsx-props-no-spreading
